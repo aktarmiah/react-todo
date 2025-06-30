@@ -67,7 +67,7 @@ export function ClunkyTodoList() {
 
   const setFilterButtonStyle = (filterButtonString: string) => {
     return {
-      backgroundColor: filter === filterButtonString ? "lightblue" : "white",
+      color: filter === filterButtonString ? "blue" : "gray",
     }
   }
 
@@ -75,17 +75,24 @@ export function ClunkyTodoList() {
     <div style={cssCenter}>
       <h1>To-Do List</h1>
       <h2>Items: {totalCount}</h2>
-      <input
-        type="text"
-        value={newTask}
-        onChange={handleInputChange}
-        placeholder="Add new task"
-      />
-      <button onClick={handleAddTask}>Add</button>
-      <div>
-        <button onClick={() => setFilter("all")} style={setFilterButtonStyle("all")}>All</button>
-        <button onClick={() => setFilter("active")} style={setFilterButtonStyle("active")}>Active</button>
-        <button onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed</button>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+        <input
+          type="text"
+          value={newTask}
+          onChange={handleInputChange}
+          placeholder="Add new task"
+          style={{ width: "100%" }}
+        />
+        <button
+          onClick={handleAddTask}
+          style={{ marginLeft: "10px", backgroundColor: "blue", color: "white" }}
+          disabled={newTask.trim() === ""}
+        >Add</button>
+      </div>
+      <div style={{ gap: "10px", display: "flex", justifyContent: "space-between", marginTop: "10px", cursor: "pointer" }}>
+        <span onClick={() => setFilter("all")} style={setFilterButtonStyle("all")}>All</span>
+        <span onClick={() => setFilter("active")} style={setFilterButtonStyle("active")}>Active</span>
+        <span onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed</span>
       </div>
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {tasksToRender.map((task, index) => 
