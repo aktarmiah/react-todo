@@ -61,9 +61,9 @@ export function ClunkyTodoList() {
       />
       <button onClick={handleAddTask}>Add</button>
       <div>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("active")}>Active</button>
-        <button onClick={() => setFilter("completed")}>Completed</button>
+        <button onClick={() => setFilter("all")} style={{ backgroundColor: filter === "all" ? "lightblue" : "white" }}>All</button>
+        <button onClick={() => setFilter("active")} style={{ backgroundColor: filter === "active" ? "lightblue" : "white" }}>Active</button>
+        <button onClick={() => setFilter("completed")} style={{ backgroundColor: filter === "completed" ? "lightblue" : "white" }}>Completed</button>
       </div>
       <ul>
         {tasksToRender.map((task, index) => (
