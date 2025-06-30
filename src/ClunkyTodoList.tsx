@@ -50,7 +50,7 @@ export function ClunkyTodoList() {
   }, [tasksToRender]);
 
   return (
-    <div>
+    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "300px" }}>
       <h1>To-Do List</h1>
       <h2>Items: {totalCount}</h2>
       <input
