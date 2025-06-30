@@ -49,6 +49,12 @@ export function ClunkyTodoList() {
     return tasksToRender.length;
   }, [tasksToRender]);
 
+  const handleDeleteTask = (id: number) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    //TODO: When no tasks to show, render an empty state
+  };
+
   return (
     <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "300px" }}>
       <h1>To-Do List</h1>
@@ -68,17 +74,26 @@ export function ClunkyTodoList() {
       <ul>
         {tasksToRender.map((task, index) => (
           <li key={index}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => handleToggleComplete(task.id)}
-            />
-            <span
-              style={{
-                textDecoration: task.completed ? "line-through" : "none",
-              }}
-            >
-              {task.text}
+
+            <span style={{ display: "flex", justifyContent: "start" }}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleToggleComplete(task.id)}
+              />              
+              <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                <span style={{ 
+                  whiteSpace: "nowrap",
+                  textDecoration: task.completed ? "line-through" : "none",
+                }}>
+                  {task.text}
+                </span>
+                <a 
+                  href="#"
+                  style={{ whiteSpace: "nowrap", cursor: "pointer" }}
+                  onClick={() => handleDeleteTask(task.id)}>[X]
+                </a>
+              </div>
             </span>
           </li>
         ))}
