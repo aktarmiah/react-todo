@@ -3,14 +3,6 @@ import { Task } from "./components/types/tasks";
 import ListItem from "./components/ListItem";
 import EmptyState from "./components/EmptyState";
 
-const cssCenter: React.CSSProperties = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "300px",
-}
-
 export function ClunkyTodoList() {
   const [tasks, setTasks] = useState<Task[]>([
     { id: 1, text: "Learn React", completed: false },
@@ -79,7 +71,13 @@ export function ClunkyTodoList() {
   }
 
   return (
-    <div style={cssCenter}>
+    <div style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "300px",
+    }}>
       <h1>To-Do List</h1>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
         <input
