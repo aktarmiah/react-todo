@@ -1,7 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Task } from "./types";
+import ListItem from "./components/ListItem";
+
+const cssCenter: React.CSSProperties = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "300px",
+}
 
 export function ClunkyTodoList() {
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState<Task[]>([
     { id: 1, text: "Learn React", completed: false },
     { id: 2, text: "Write code", completed: true },
     { id: 3, text: "Eat lunch", completed: false },
@@ -55,8 +65,14 @@ export function ClunkyTodoList() {
     //TODO: When no tasks to show, render an empty state
   };
 
+  const setFilterButtonStyle = (filterButtonString: string) => {
+    return {
+      backgroundColor: filter === filterButtonString ? "lightblue" : "white",
+    }
+  }
+
   return (
-    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "300px" }}>
+    <div style={cssCenter}>
       <h1>To-Do List</h1>
       <h2>Items: {totalCount}</h2>
       <input
@@ -67,36 +83,20 @@ export function ClunkyTodoList() {
       />
       <button onClick={handleAddTask}>Add</button>
       <div>
-        <button onClick={() => setFilter("all")} style={{ backgroundColor: filter === "all" ? "lightblue" : "white" }}>All</button>
-        <button onClick={() => setFilter("active")} style={{ backgroundColor: filter === "active" ? "lightblue" : "white" }}>Active</button>
-        <button onClick={() => setFilter("completed")} style={{ backgroundColor: filter === "completed" ? "lightblue" : "white" }}>Completed</button>
+        <button onClick={() => setFilter("all")} style={setFilterButtonStyle("all")}>All</button>
+        <button onClick={() => setFilter("active")} style={setFilterButtonStyle("active")}>Active</button>
+        <button onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed</button>
       </div>
-      <ul>
-        {tasksToRender.map((task, index) => (
-          <li key={index}>
-
-            <span style={{ display: "flex", justifyContent: "start" }}>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => handleToggleComplete(task.id)}
-              />              
-              <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                <span style={{ 
-                  whiteSpace: "nowrap",
-                  textDecoration: task.completed ? "line-through" : "none",
-                }}>
-                  {task.text}
-                </span>
-                <a 
-                  href="#"
-                  style={{ whiteSpace: "nowrap", cursor: "pointer" }}
-                  onClick={() => handleDeleteTask(task.id)}>[X]
-                </a>
-              </div>
-            </span>
-          </li>
-        ))}
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        {tasksToRender.map((task, index) => 
+          <ListItem 
+            key={index} 
+            id={task.id} 
+            text={task.text} 
+            completed={task.completed} 
+            index={index} 
+            handleToggleComplete={handleToggleComplete}
+            handleDeleteTask={handleDeleteTask} />)}
       </ul>
     </div>
   );
