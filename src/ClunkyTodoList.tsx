@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Task } from "./types";
+import { Task } from "./components/types/tasks";
 import ListItem from "./components/ListItem";
 import EmptyState from "./components/EmptyState";
 

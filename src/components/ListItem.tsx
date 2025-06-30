@@ -1,5 +1,5 @@
 import React from "react";
-import { Task } from "../types";
+import { Task } from "./types/tasks";
 
 type ListItemProps = Task & {
   index: number;
