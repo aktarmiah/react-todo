@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Task } from "./types";
 import ListItem from "./components/ListItem";
+import EmptyState from "./components/EmptyState";
 
 const cssCenter: React.CSSProperties = {
   position: "absolute",
@@ -62,7 +63,6 @@ export function ClunkyTodoList() {
   const handleDeleteTask = (id: number) => {
     const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
-    //TODO: When no tasks to show, render an empty state
   };
 
   const setFilterButtonStyle = (filterButtonString: string) => {
@@ -95,7 +95,7 @@ export function ClunkyTodoList() {
         <span onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed</span>
       </div>
       <ul style={{ listStyleType: "none", padding: 0 }}>
-        {tasksToRender.map((task, index) => 
+        {tasksToRender.length > 0 ? tasksToRender.map((task, index) => 
           <ListItem 
             key={index} 
             id={task.id} 
@@ -103,7 +103,9 @@ export function ClunkyTodoList() {
             completed={task.completed} 
             index={index} 
             handleToggleComplete={handleToggleComplete}
-            handleDeleteTask={handleDeleteTask} />)}
+            handleDeleteTask={handleDeleteTask} />)
+          : <EmptyState />
+          }
       </ul>
     </div>
   );
