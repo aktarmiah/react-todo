@@ -19,6 +19,11 @@ export function ClunkyTodoList() {
   ]);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
+  const [itemCounts, setItemCounts] = useState({
+    all: 0,
+    active: 0,
+    completed: 0,
+  });
 
   const handleInputChange = (event) => {
     setNewTask(event.target.value);
@@ -54,11 +59,13 @@ export function ClunkyTodoList() {
       filteredTasks = tasks.filter((task) => !task.completed);
     }
     setTasksToRender(filteredTasks);
-  }, [tasks, filter]);
+    setItemCounts({  // Update the item counts when the tasks or filter change
+      all: tasks.length,
+      active: tasks.filter((task) => !task.completed).length,
+      completed: tasks.filter((task) => task.completed).length,
+    });
 
-  const totalCount = useMemo(() => {
-    return tasksToRender.length;
-  }, [tasksToRender]);
+ }, [tasks, filter]);
 
   const handleDeleteTask = (id: number) => {
     const updatedTasks = tasks.filter((task) => task.id !== id);
@@ -74,7 +81,6 @@ export function ClunkyTodoList() {
   return (
     <div style={cssCenter}>
       <h1>To-Do List</h1>
-      <h2>Items: {totalCount}</h2>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
         <input
           type="text"
@@ -90,9 +96,9 @@ export function ClunkyTodoList() {
         >Add</button>
       </div>
       <div style={{ gap: "10px", display: "flex", justifyContent: "space-between", marginTop: "10px", cursor: "pointer" }}>
-        <span onClick={() => setFilter("all")} style={setFilterButtonStyle("all")}>All</span>
-        <span onClick={() => setFilter("active")} style={setFilterButtonStyle("active")}>Active</span>
-        <span onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed</span>
+        <span onClick={() => setFilter("all")} style={setFilterButtonStyle("all")}>All ({itemCounts.all})</span>
+        <span onClick={() => setFilter("active")} style={setFilterButtonStyle("active")}>Active ({itemCounts.active})</span>
+        <span onClick={() => setFilter("completed")} style={setFilterButtonStyle("completed")}>Completed ({itemCounts.completed})</span>
       </div>
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {tasksToRender.length > 0 ? tasksToRender.map((task, index) => 
@@ -104,7 +110,7 @@ export function ClunkyTodoList() {
             index={index} 
             handleToggleComplete={handleToggleComplete}
             handleDeleteTask={handleDeleteTask} />)
-          : <EmptyState />
+          : <EmptyState filter={filter} />
           }
       </ul>
     </div>
